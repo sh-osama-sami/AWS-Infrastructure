@@ -1,7 +1,7 @@
 # Secure Networking and Compute Infrastructure Setup
 
 ## Overview
-This project aims to establish a secure networking and compute infrastructure within a cloud environment. It involves setting up Virtual Private Cloud (VPC), internet gateway, route tables, security groups, and EC2 instances with specific configurations to ensure robustness and security.
+This project aims to establish a secure networking and compute infrastructure within a cloud environment. It involves setting up Virtual Private Cloud (VPC), internet gateway, route tables, security groups, RDS, Elasticache, a private EC2 instance and a bastion sever with specific configurations to ensure robustness and security.
 
 ## Project Components
 ## Networking
