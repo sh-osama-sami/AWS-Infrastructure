@@ -36,7 +36,7 @@ This project aims to establish a secure networking and compute infrastructure wi
      terraform workspace new prod
      ```
 3. **Create two variable definition files (.tfvars) for the two environments.**
-   - [prod.tfvar](prod.tfvar) [dev.tfvar](dev.tfvar)
+   - [prod.tfvar](prod.tfvars) [dev.tfvar](dev.tfvars)
 5. **Separate network resources into network module.**
    - [network](modules/network)
 7. **Apply your code to create two environments:** one in `us-east-1` and `eu-central-1`.
@@ -54,7 +54,7 @@ This project aims to establish a secure networking and compute infrastructure wi
 1. **Create RDS in private subnet.**
    - [RDS](rds.tf)
 3. **Create Elastic Cache in private subnet.**
-   - [Elasticache](elasticache)
+   - [Elasticache](elasticache.tf)
      
 ## AWS Services Integration
 
