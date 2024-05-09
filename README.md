@@ -43,8 +43,104 @@ This project aims to establish a secure networking and compute infrastructure wi
 ## AWS Services Integration
 
 1. **Verify your email in SES service.**
-2. **Create Lambda function to send email.**
-3. **Create trigger to detect changes in state file and send the email.**
+3. **Create Lambda function to send email.**
+   - ```python
+         import boto3
+         from datetime import datetime, timedelta, timezone
+         
+         def lambda_handler(event, context):
+             # Define the S3 bucket name storing Terraform state
+             bucket_name = 'sherrys-terraform-bucket'
+         
+             # Create S3 client
+             s3 = boto3.client('s3')
+         
+             # Get the list of objects in the bucket
+             response = s3.list_objects_v2(Bucket=bucket_name)
+         
+             # Check if there are objects in the bucket
+             if 'Contents' in response:
+                 # Get the last modified timestamp of the most recent object
+                 last_modified = max(obj['LastModified'] for obj in response['Contents'])
+         
+                 # Define the threshold time (e.g., 1 hour ago) as an offset-aware datetime object
+                 threshold_time = datetime.now(timezone.utc) - timedelta(hours=1)
+         
+                 # If the last modified time is newer than the threshold time, send email
+                 if last_modified > threshold_time:
+                     send_email_notification()
+             else:
+                 print("No objects found in the bucket.")
+         
+         def send_email_notification():
+             # Create SES client
+             ses = boto3.client('ses')
+         
+             # Define email parameters
+             sender = 'sh.osama.sami@gmail.com'
+             recipient = 'mo883322@gmail.com'
+             subject = 'S3 Bucket Updated'
+             body_text = 'The Terraform state S3 bucket has been updated.'
+         
+             # Send email
+             response = ses.send_email(
+                 Source=sender,
+                 Destination={
+                     'ToAddresses': [recipient]
+                 },
+                 Message={
+                     'Subject': {'Data': subject},
+                     'Body': {'Text': {'Data': body_text}}
+                 }
+             )
+         
+             print("Email notification sent:", response)
+
+     ```
+     - Verify the sender's and reciver's email in ses
+     - Add an IAM policy to the lambda function for the SES and the S3
+       ```json
+         {
+             "Version": "2012-10-17",
+             "Statement": [
+                 {
+                     "Effect": "Allow",
+                     "Action": "ses:SendEmail",
+                     "Resource": "*"
+                 },
+                 {
+                     "Effect": "Allow",
+                     "Action": "ses:SendRawEmail",
+                     "Resource": "*"
+                 }
+             ]
+         }
+
+       ```
+       ```json
+
+         {
+             "Version": "2012-10-17",
+             "Statement": [
+                 {
+                     "Effect": "Allow",
+                     "Action": [
+                         "s3:ListBucket"
+                     ],
+                     "Resource": "arn:aws:s3:::your_bucket_name"
+                 },
+                 {
+                     "Effect": "Allow",
+                     "Action": [
+                         "s3:GetObject"
+                     ],
+                     "Resource": "arn:aws:s3:::your_bucket_name/*"
+                 }
+             ]
+         }
+
+       ```
+5. **Create an S3 trigger to detect changes in state file inside the bucket and send the email.**
 
    
 ## Project Deliverables
