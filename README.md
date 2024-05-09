@@ -36,9 +36,9 @@ This project aims to establish a secure networking and compute infrastructure wi
      terraform workspace new prod
      ```
 3. **Create two variable definition files (.tfvars) for the two environments.**
-   - [prod.tfvar](prod.tfvars) [dev.tfvar](dev.tfvars)
+   - [prod.tfvar](lab2/prod.tfvars) [dev.tfvar](lab2/dev.tfvars)
 5. **Separate network resources into network module.**
-   - [network](modules/network)
+   - [network](lab2/modules/network)
 7. **Apply your code to create two environments:** one in `us-east-1` and `eu-central-1`.
    - define them in variables file 
 9. **Run local-exec provisioner to print the public IP of bastion EC2.**
@@ -52,9 +52,9 @@ This project aims to establish a secure networking and compute infrastructure wi
 ### Additional Steps:
 
 1. **Create RDS in private subnet.**
-   - [RDS](rds.tf)
+   - [RDS](lab2/rds.tf)
 3. **Create Elastic Cache in private subnet.**
-   - [Elasticache](elasticache.tf)
+   - [Elasticache](lab2/elasticache.tf)
      
 ## AWS Services Integration
 
